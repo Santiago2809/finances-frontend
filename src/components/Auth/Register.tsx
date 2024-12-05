@@ -1,14 +1,18 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Input from "./components/Input";
 import Button from "../Ui/Button";
 import { Link } from "react-router-dom";
 import PasswordInput from "./components/PasswordInput";
 import useForm from "./hooks/useForm";
+import HatchLoader from "../Ui/loaders/HatchLoader";
+import register from "./services/register";
+import ErrorMessage from "./components/ErrorMessage";
 
 function Register() {
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const haveSubmitted = useRef<boolean>(false);
+    const [serverError, setServerError] = useState<string | null>(null)
 
     const [handleChange, formValues, errors] = useForm({
         name: "",
@@ -22,10 +26,23 @@ function Register() {
 
     // * Funcion que maneja el submit del form
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-        setIsLoading(true);
         event.preventDefault();
-        haveSubmitted.current = true;
+        haveSubmitted.current = true; //TODO Verificar que al hacer el primer submit se muestren los errores (no se muestran porque no hay rerender)
+        // console.log(errors)
         if (Object.entries(errors).length > 0 || differentPasswords) return;
+        setIsLoading(true);
+        const { email, name, password, phone } = formValues;
+        try {
+            await register({ email, name, password, phone });
+
+        } catch (error) {
+            if (typeof error === "string") {
+                setServerError(error)
+            }
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
 
     }
 
@@ -35,6 +52,8 @@ function Register() {
             <div className="w-full max-w-[420px] sm:p-6 sm:bg-zinc-800/70 rounded-md sm:shadow-md sm:shadow-zinc-800">
                 <h2 className="text-2xl font-bold mb-6 text-center">Create an account</h2>
                 <form className="flex flex-col gap-y-8" onSubmit={handleSubmit}>
+
+                    {serverError && <ErrorMessage message={serverError} />}
 
                     <Input label="name*" placeholder="John Doe" onChange={handleChange} value={formValues.name} error={haveSubmitted.current ? errors?.name : undefined}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="absolute w-6 h-6 top-0 bottom-0 my-auto mx-0"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 2a5 5 0 1 1 -5 5l.005 -.217a5 5 0 0 1 4.995 -4.783z" /><path d="M14 14a5 5 0 0 1 5 5v1a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-1a5 5 0 0 1 5 -5h4z" /></svg>
@@ -61,7 +80,12 @@ function Register() {
                         ><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z" /><path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" /><path d="M8 11v-4a4 4 0 1 1 8 0v4" /></svg>
                     </PasswordInput>
 
-                    <Button text="Create account" isLoading={isLoading} disabled={isLoading} />
+                    <Button disabled={isLoading}>
+                        {isLoading
+                            ? <HatchLoader size="21" speed="1.5" stroke="2" />
+                            : "Create account"
+                        }
+                    </Button>
 
                 </form>
                 <h3 className="mt-5">Already have an account? <Link to="/auth/login" className="underline text-emerald-500">Sign in.</Link></h3>
