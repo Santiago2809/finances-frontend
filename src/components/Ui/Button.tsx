@@ -1,7 +1,5 @@
 
-
-
-export default function Button({ text, isLoading, onClick, ...props }: { text: string, isLoading: boolean, onClick?: React.MouseEventHandler<HTMLButtonElement> } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
+export default function Button({ onClick, children, ...props }: { onClick?: React.MouseEventHandler<HTMLButtonElement> } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
 
     return (
         <button
@@ -9,7 +7,7 @@ export default function Button({ text, isLoading, onClick, ...props }: { text: s
             onClick={onClick || (() => { })}
             {...props}
         >
-            {isLoading ? "Loading..." : text}
+            {children}
         </button>
     )
 }
