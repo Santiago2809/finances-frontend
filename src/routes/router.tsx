@@ -4,6 +4,7 @@ import MainDashboardLayout from "../components/Dashboard/MainDashboardLayout";
 import MainDashboard from "../components/Dashboard/MainDashboard";
 import { baseLoader } from "./loaders";
 import { lazy, Suspense } from "react";
+import FallbackLoader from "../components/Ui/FallbackLoader";
 
 const Register = lazy(() => import("../components/Auth/Register"))
 
@@ -33,7 +34,7 @@ const router = createBrowserRouter([
                     },
                     {
                         path: "register",
-                        element: <Suspense fallback={<>...loading</>}>
+                        element: <Suspense fallback={<FallbackLoader />}>
                             <Register />
                         </Suspense>
                     }
