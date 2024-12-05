@@ -5,6 +5,7 @@ import Input from "./components/Input";
 import PasswordInput from "./components/PasswordInput";
 import login from "./services/login";
 import { Link } from "react-router-dom";
+import HatchLoader from "../Ui/loaders/HatchLoader";
 
 interface FormDataValues {
     email: string;
@@ -23,7 +24,7 @@ function Login() {
 
         if (typeof formData.email === "string" && typeof formData.password === "string") {
             const { email, password } = formData as unknown as FormDataValues;
-            console.log({ email, password });
+            // console.log({ email, password });
             try {
                 await login(email, password);
             } catch (error: unknown) {
@@ -44,8 +45,7 @@ function Login() {
                 <h2 className="text-2xl font-bold mb-6 text-center">Welcome back!</h2>
                 <form className="flex flex-col gap-y-8" onSubmit={handleSubmit}>
 
-                    {error && <ErrorMessage message="Incorrect username or password." />}
-
+                    {error && <ErrorMessage message={error} />}
                     <Input label="email" placeholder="example@example.com">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
                             className="absolute w-6 h-6 top-0 bottom-0 my-auto mx-0"
@@ -57,7 +57,12 @@ function Login() {
                         ><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z" /><path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" /><path d="M8 11v-4a4 4 0 1 1 8 0v4" /></svg>
                     </PasswordInput>
 
-                    <Button text="Get Started" isLoading={isLoading} />
+                    <Button disabled={isLoading}>
+                        {isLoading
+                            ? <HatchLoader size="21" speed="1.5" stroke="2" />
+                            : "Get started"
+                        }
+                    </Button>
 
                 </form>
                 <h3 className="mt-5">Don't have an account? <Link to="/auth/register" className="underline text-emerald-500">Sign up.</Link></h3>
@@ -65,6 +70,7 @@ function Login() {
         </main>
     )
 }
+
 
 export default Login;
 
