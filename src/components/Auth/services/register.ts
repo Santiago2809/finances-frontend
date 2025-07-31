@@ -16,7 +16,7 @@ async function register({ name, email, password, phone }: registerBody): Promise
 			data: {
 				name,
 				email,
-				phone,
+				phone: phone || null,
 				password,
 			},
 		});
