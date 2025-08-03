@@ -4,8 +4,9 @@ import ErrorMessage from "./components/ErrorMessage";
 import Input from "./components/Input";
 import PasswordInput from "./components/PasswordInput";
 import login from "./services/login";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import HatchLoader from "../Ui/loaders/HatchLoader";
+import { useAuthStore } from "../../store/store";
 
 interface FormDataValues {
 	email: string;
@@ -13,8 +14,10 @@ interface FormDataValues {
 }
 
 function Login() {
+	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
+	const loginFn = useAuthStore((state) => state.login);
 
 	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		setIsLoading(true);
@@ -33,7 +36,11 @@ function Login() {
 			// console.log({ email, password });
 			//* We send the data to the API and wait for the response.
 			try {
-				await login(email, password);
+				const response = await login(email, password);
+				if (response) {
+					loginFn(response);
+					navigate("/");
+				}
 			} catch (error: unknown) {
 				if (typeof error === "string") {
 					setError(error);
