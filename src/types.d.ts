@@ -14,7 +14,7 @@ interface ITransaction {
 	id: number;
 	name: string;
 	type: type;
-	categories: Partial<ICategory>;
+	categories: Partial<ICategory> | null;
 	date: string;
 	amount: number;
 }
