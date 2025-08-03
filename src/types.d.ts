@@ -20,7 +20,7 @@ interface ITransaction {
 }
 
 interface ICategory {
-	id: string;
+	id: number;
 	name: string;
 	userId: string;
 }
