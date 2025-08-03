@@ -1,3 +1,8 @@
+interface IUserResponse {
+	status: string;
+	message: string;
+	data: IUser;
+}
 interface IUser {
 	id: string;
 	name: string;
