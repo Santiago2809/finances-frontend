@@ -1,14 +1,14 @@
+import { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import Login from "../components/Auth/Login";
 import MainDashboardLayout from "../components/Dashboard/MainDashboardLayout";
 import MainDashboard from "../components/Dashboard/MainDashboard";
 import { authLoader, baseLoader } from "./loaders";
-import { lazy, Suspense } from "react";
 import FallbackLoader from "../components/Ui/FallbackLoader";
 import ErrorElement from "../components/Ui/ErrorElement";
-import TransactionsPage from "../components/Transactions/TransactionsPage";
 
 const Register = lazy(() => import("../components/Auth/Register"));
+const TransactionsPage = lazy(() => import("../components/Transactions/TransactionsPage"));
 
 const router = createBrowserRouter([
 	{
@@ -26,7 +26,12 @@ const router = createBrowserRouter([
 					},
 					{
 						path: "transactions",
-						element: <TransactionsPage />,
+						element: (
+							// todo change fallback loader so it fit correctly
+							<Suspense fallback={<FallbackLoader />}>
+								<TransactionsPage />
+							</Suspense>
+						),
 					},
 				],
 			},
@@ -40,9 +45,9 @@ const router = createBrowserRouter([
 					{
 						path: "register",
 						element: (
-							<Suspense fallback={<FallbackLoader />}>
+							<LazyLoadComponent>
 								<Register />
-							</Suspense>
+							</LazyLoadComponent>
 						),
 					},
 				],
@@ -52,5 +57,9 @@ const router = createBrowserRouter([
 		errorElement: <ErrorElement />,
 	},
 ]);
+
+function LazyLoadComponent({ children }: { children: React.ReactNode }) {
+	return <Suspense fallback={<FallbackLoader />}>{children}</Suspense>;
+}
 
 export default router;
