@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { axiosInstance } from "../../../config/axios-config";
 
 async function login(email: string, password: string): Promise<IUser | void> {
