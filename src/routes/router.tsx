@@ -6,6 +6,7 @@ import MainDashboard from "../components/Dashboard/MainDashboard";
 import { authLoader, baseLoader } from "./loaders";
 import FallbackLoader from "../components/Ui/FallbackLoader";
 import ErrorElement from "../components/Ui/ErrorElement";
+import FallbackLayoutLoader from "../components/Ui/FallbackLayoutLoader";
 
 const Register = lazy(() => import("../components/Auth/Register"));
 const TransactionsPage = lazy(() => import("../components/Transactions/TransactionsPage"));
@@ -27,8 +28,7 @@ const router = createBrowserRouter([
 					{
 						path: "transactions",
 						element: (
-							// todo change fallback loader so it fit correctly
-							<Suspense fallback={<FallbackLoader />}>
+							<Suspense fallback={<FallbackLayoutLoader />}>
 								<TransactionsPage />
 							</Suspense>
 						),
