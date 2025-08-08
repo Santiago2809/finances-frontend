@@ -7,6 +7,7 @@ import { authLoader, baseLoader } from "./loaders";
 import FallbackLoader from "../components/Ui/FallbackLoader";
 import ErrorElement from "../components/Ui/ErrorElement";
 import FallbackLayoutLoader from "../components/Ui/FallbackLayoutLoader";
+import { transactionsLoader } from "../components/Transactions/components/TransactionsTable";
 
 const Register = lazy(() => import("../components/Auth/Register"));
 const TransactionsPage = lazy(() => import("../components/Transactions/TransactionsPage"));
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
 								<TransactionsPage />
 							</Suspense>
 						),
+						loader: transactionsLoader,
 					},
 				],
 			},
