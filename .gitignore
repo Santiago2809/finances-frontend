@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 .env
+.env.production
 tsconfig.app.tsbuildinfo
 tsconfig.node.tsbuildinfo
 # Editor directories and files
