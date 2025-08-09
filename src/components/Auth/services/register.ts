@@ -1,4 +1,5 @@
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
+import { axiosInstance } from "../../../config/axios-config";
 
 type registerBody = {
 	name: string;
@@ -7,20 +8,21 @@ type registerBody = {
 	password: string;
 };
 
+interface CreatedUser {
+	name: string;
+	id: string;
+	email: string;
+	phone: string | null;
+}
+
 async function register({ name, email, password, phone }: registerBody): Promise<void> {
 	try {
-		const response = await axios({
-			method: "post",
-			url: "http://localhost:3000/auth/register",
-			withCredentials: true,
-			data: {
-				name,
-				email,
-				phone: phone || null,
-				password,
-			},
+		const response = await axiosInstance.post<CreatedUser>("/auth/register", {
+			name,
+			email,
+			phone: phone || null,
+			password,
 		});
-		// console.log(response);
 		if (response.status === 200) {
 			return Promise.resolve();
 		}
