@@ -2,21 +2,27 @@ import { create } from "zustand";
 
 type State = {
 	menuVisible: boolean;
+	drawerVisible: boolean;
 	addTransactionModalVisible: boolean;
 };
 
 type Action = {
 	showMenu: () => void;
 	hideMenu: () => void;
+	showDrawer: () => void;
+	hideDrawer: () => void;
 	showAddTransactionModal: () => void;
 	hideAddTransactionModal: () => void;
 };
 
 export const useUiStore = create<State & Action>((set) => ({
 	menuVisible: false,
+	drawerVisible: false,
 	addTransactionModalVisible: false,
 	showMenu: () => set(() => ({ menuVisible: true })),
 	hideMenu: () => set(() => ({ menuVisible: false })),
+	showDrawer: () => set(() => ({ drawerVisible: true })),
+	hideDrawer: () => set(() => ({ drawerVisible: false })),
 	showAddTransactionModal: () => set(() => ({ addTransactionModalVisible: true })),
 	hideAddTransactionModal: () => set(() => ({ addTransactionModalVisible: false })),
 }));
