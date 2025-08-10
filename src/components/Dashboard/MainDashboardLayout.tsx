@@ -2,17 +2,22 @@ import { Outlet } from "react-router-dom";
 import { PanelRight } from "lucide-react";
 import Drawer from "../Ui/Drawer";
 import { useValidateAuth } from "../../hooks/useValidateAuth";
+import { useUiStore } from "../../store/store";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 function MainDashboardLayout() {
 	const user = useValidateAuth();
+	const isMobile = useIsMobile();
+	const { drawerVisible, showDrawer, hideDrawer } = useUiStore();
 
 	return (
-		<div className="flex h-screen">
-			<Drawer />
+		<div className="flex h-screen relative">
+			{!isMobile && <Drawer />}
+			{isMobile && drawerVisible && <Drawer />}
 			<main className="relative h-screen w-full">
 				<section className="flex-grow h-full overflow-y-scroll">
 					<div className="w-full flex items-center gap-x-3 bg-[#1f1f20] p-4">
-						<div className="p-2 hover:rounded-full hover:bg-slate-400/15 cursor-pointer">
+						<div className="p-2 hover:rounded-full hover:bg-slate-400/15 cursor-pointer" onClick={isMobile && drawerVisible ? hideDrawer : showDrawer}>
 							<PanelRight size={20} />
 						</div>
 						{user && <p className="">Hello {user?.name?.split(" ")[0]}</p>}
