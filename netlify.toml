@@ -3,14 +3,6 @@
   command = "npm run build"
   publish = "dist"
 
-# === SPA fallback (si usas React Router) ===
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  force = true
-  conditions = {Language = ["en"]}
-
 # === API proxy ===
 [[redirects]]
   from = "/api/*"
@@ -18,6 +10,13 @@
   status = 200
   force = true
 
+# === SPA fallback (si usas React Router) ===
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = true
+ 
 # === Security headers (recomendados) ===
 [[headers]]
   for = "/*"
