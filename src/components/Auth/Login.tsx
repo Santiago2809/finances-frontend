@@ -36,11 +36,9 @@ function Login() {
 			// console.log({ email, password });
 			//* We send the data to the API and wait for the response.
 			try {
-				const response = await login(email, password);
-				if (response) {
-					loginFn(response);
-					navigate("/");
-				}
+				await login(email, password);
+				// loginFn(response);
+				navigate("/");
 			} catch (error: unknown) {
 				if (typeof error === "string") {
 					setError(error);

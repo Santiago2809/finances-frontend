@@ -4,16 +4,16 @@ import { axiosInstance } from "../../../config/axios-config";
 async function login(email: string, password: string): Promise<IUser | void> {
 	try {
 		const response = await axiosInstance.post<IUser>(
-			"/auth/login",
+			"auth/login",
 			{ email, password },
 			{
 				withCredentials: true,
 			}
 		);
-		// console.log(response);
+		console.log(response);
 		if (response.status === 200) {
-			const user = response.data;
-			return user;
+			// const user = response.data;
+			return Promise.resolve();
 		}
 	} catch (error) {
 		if (error instanceof AxiosError) {

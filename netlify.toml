@@ -1,0 +1,30 @@
+# === Build ===
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# === SPA fallback (si usas React Router) ===
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = true
+  conditions = {Language = ["en"]}
+
+# === API proxy ===
+[[redirects]]
+  from = "/api/*"
+  to = "https://tu-api.onrender.com/:splat"
+  status = 200
+  force = true
+
+# === Security headers (recomendados) ===
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    # Ajusta tu CSP a tu app (esto es un ejemplo permisivo para empezar)
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; connect-src 'self' https:; font-src 'self' data: https:;"
