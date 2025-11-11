@@ -6,7 +6,7 @@ import PasswordInput from "./components/PasswordInput";
 import login from "./services/login";
 import { Link, useNavigate } from "react-router-dom";
 import HatchLoader from "../Ui/loaders/HatchLoader";
-import { useAuthStore } from "../../store/store";
+// import { useAuthStore } from "../../store/store";
 
 interface FormDataValues {
 	email: string;
@@ -17,7 +17,7 @@ function Login() {
 	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
-	const loginFn = useAuthStore((state) => state.login);
+	// const loginFn = useAuthStore((state) => state.login);
 
 	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 		setIsLoading(true);
