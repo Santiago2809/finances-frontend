@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Input from "./components/Input";
 import Button from "../Ui/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PasswordInput from "./components/PasswordInput";
 import useForm from "./hooks/useForm";
 import HatchLoader from "../Ui/loaders/HatchLoader";
@@ -9,6 +9,7 @@ import register from "./services/register";
 import ErrorMessage from "./components/ErrorMessage";
 
 function Register() {
+	const navigate = useNavigate();
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [serverError, setServerError] = useState<string | null>(null);
 	const [haveSubmitted, setHaveSubmitted] = useState<boolean>(false);
@@ -32,6 +33,7 @@ function Register() {
 		const { email, name, password, phone } = formValues;
 		try {
 			await register({ email, name, password, phone });
+			navigate("/");
 		} catch (error) {
 			if (typeof error === "string") {
 				setServerError(error);
