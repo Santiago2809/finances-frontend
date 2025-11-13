@@ -14,7 +14,7 @@ export default function TransactionsTable() {
 	}, [fetchedTransactions, addTransactions]);
 
 	return (
-		<div className="relative overflow-x-auto p-6 bg-zinc-800/70 rounded-lg">
+		<div className="animate__animated animate__fadeIn relative overflow-x-auto p-6 bg-zinc-800/70 rounded-lg">
 			{transactions.length > 0 ? (
 				<table className="w-full text-left">
 					<thead className="text-xs text-white uppercase border-b border-b-white">

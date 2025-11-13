@@ -6,7 +6,7 @@ export function Modal({ children, isOpen, onRequestClose }: { children: React.Re
 		<ModalComponent
 			isOpen={isOpen}
 			onRequestClose={onRequestClose}
-			className="p-4 bg-zinc-800 rounded-lg"
+			className="p-4 bg-zinc-800 rounded-lg animate__animated animate__fadeIn animate__faster"
 			overlayClassName="fixed flex justify-center items-center inset-0 bg-[rgba(24,24,24,0.7)]"
 		>
 			{children}
