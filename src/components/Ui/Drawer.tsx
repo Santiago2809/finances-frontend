@@ -21,8 +21,11 @@ export default function Drawer() {
 		}
 	}
 
-	return (
-		<section className={"w-[15%] min-w-[225px] max-w-[265px] animate__animated animate__slideInLeft animate__faster" + (isMobile && " absolute z-50 h-screen")}>
+	const baseClasses = "w-[15%] min-w-[225px] max-w-[265px] animate__animated animate__slideInLeft animate__faster";
+	const finalClasses = isMobile ? baseClasses + " absolute z-50 h-screen" : baseClasses;
+
+	const drawerBody = (
+		<section className={finalClasses}>
 			<div className="p-4 flex flex-col bg-zinc-800 h-full">
 				<h2 className="text-4xl text-center mb-4">Fintrack</h2>
 				<ul className="p-2 flex flex-col gap-y-2 cursor-pointer">
@@ -36,6 +39,18 @@ export default function Drawer() {
 				</Button>
 			</div>
 		</section>
+	);
+	return isMobile ? <DrawerWraper onClose={hideDrawer}>{drawerBody}</DrawerWraper> : drawerBody;
+}
+
+function DrawerWraper({ children, onClose }: { children: React.ReactNode; onClose: () => void }) {
+	return (
+		<div id="wraper" className="fixed inset-0 z-50" aria-modal="true" role="dialog">
+			<div className="absolute inset-0 bg-black/50 animate__animated animate__fadeIn animate__faster" onClick={onClose} />
+			<div className="relative z-10" onClick={(e) => e.stopPropagation()}>
+				{children}
+			</div>
+		</div>
 	);
 }
 
